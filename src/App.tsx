@@ -46,7 +46,7 @@ function App() {
       const configmAValue = confirm("Bạn có muốn xóa sản phẩm này?");
       if (configmAValue) {
         await instance.delete(`/products/${id}`);
-        setProducts(products.filter((item) => item.id !== id));
+        setProducts(products.filter((item) => item.id !== id && item));
       }
     })();
   };
@@ -67,7 +67,10 @@ function App() {
 
             {/* Admin */}
             <Route path="/admin">
-              <Route index element={<Dashboard products={products} onDel={handleDelete}/>} />
+              <Route
+                index
+                element={<Dashboard products={products} onDel={handleDelete} />}
+              />
               <Route
                 path="/admin/add"
                 element={<ProductAdd onAdd={handleAddProduct} />}

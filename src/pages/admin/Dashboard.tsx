@@ -7,7 +7,7 @@ type Props = {
   onDel: (id: number) => void;
 };
 
-const Dashboard = ({ onDel, products }: Props) => {
+const Dashboard = ({ products, onDel }: Props) => {
   return (
     <div>
       <h1>Dashboard</h1>
@@ -39,7 +39,7 @@ const Dashboard = ({ onDel, products }: Props) => {
                 <Link to={`/admin/edit/${item.id}`} className="btn btn-warning">
                   Edit
                 </Link>
-                <button className="btn btn-danger" onClick={() => onDel(item.id)}>Delete</button>
+                <button className="btn btn-danger" onClick={() => onDel (Number(item.id))}>Delete</button>
               </td>
             </tr>
           ))}
