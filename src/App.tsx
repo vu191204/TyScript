@@ -13,6 +13,7 @@ import Dashboard from "./pages/admin/Dashboard";
 import ProductAdd from "./pages/admin/ProductAdd";
 import { createProduct, getProducts, updateProduct } from "./api/product";
 import ProductEdit from "./pages/admin/ProductEdit";
+import instance from "./api";
 
 function App() {
   const navigate = useNavigate();
@@ -35,9 +36,18 @@ function App() {
     (async () => {
       const product = await updateProduct(data);
       setProducts(
-        products.map((item) => (item.id === product.id ? product : item))
+        products.map((item) => (item.id === product.id ? product : item)),
       );
       navigate("/admin");
+    })();
+  };
+  const handleDelete = (id: number) => {
+    (async () => {
+      const configmAValue = confirm("Bạn có muốn xóa sản phẩm này?");
+      if (configmAValue) {
+        await instance.delete(`/products/${id}`);
+        setProducts(products.filter((item) => item.id !== id));
+      }
     })();
   };
 
@@ -57,7 +67,7 @@ function App() {
 
             {/* Admin */}
             <Route path="/admin">
-              <Route index element={<Dashboard products={products} />} />
+              <Route index element={<Dashboard products={products} onDel={handleDelete}/>} />
               <Route
                 path="/admin/add"
                 element={<ProductAdd onAdd={handleAddProduct} />}

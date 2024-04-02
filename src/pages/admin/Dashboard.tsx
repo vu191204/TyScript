@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 
 type Props = {
   products: TProduct[];
+  onDel: (id: number) => void;
 };
 
-const Dashboard = ({ products }: Props) => {
+const Dashboard = ({ onDel, products }: Props) => {
   return (
     <div>
       <h1>Dashboard</h1>
@@ -38,7 +39,7 @@ const Dashboard = ({ products }: Props) => {
                 <Link to={`/admin/edit/${item.id}`} className="btn btn-warning">
                   Edit
                 </Link>
-                <button className="btn btn-danger">Delete</button>
+                <button className="btn btn-danger" onClick={() => onDel(item.id)}>Delete</button>
               </td>
             </tr>
           ))}
