@@ -1,32 +1,46 @@
-// App.tsx
-import React, { useState, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import "bootstrap/dist/css/bootstrap.min.css";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
 import { TProduct } from "./interfaces/Product";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
+import ProductDetail from "./pages/ProductDetail";
+import Register from "./pages/Register";
 import Dashboard from "./pages/admin/Dashboard";
 import ProductAdd from "./pages/admin/ProductAdd";
-import instance from "./api";
-import ProductDetail from "./pages/ProductDetail";
+import { createProduct, getProducts, updateProduct } from "./api/product";
+import ProductEdit from "./pages/admin/ProductEdit";
 
 function App() {
+  const navigate = useNavigate();
   const [products, setProducts] = useState<TProduct[]>([]);
   useEffect(() => {
-    const getAllProducts = async () => {
-      try {
-        const { data } = await instance.get(`/products`);
-        setProducts(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getAllProducts();
+    (async () => {
+      const data = await getProducts();
+      setProducts(data);
+    })();
   }, []);
+
+  const handleAddProduct = (data: TProduct) => {
+    (async () => {
+      const newProduct = await createProduct(data);
+      setProducts([...products, newProduct]);
+      navigate("/admin");
+    })();
+  };
+  const handleEditProduct = (data: TProduct) => {
+    (async () => {
+      const product = await updateProduct(data);
+      setProducts(
+        products.map((item) => (item.id === product.id ? product : item))
+      );
+      navigate("/admin");
+    })();
+  };
+
   return (
     <>
       <div className="app">
@@ -44,7 +58,14 @@ function App() {
             {/* Admin */}
             <Route path="/admin">
               <Route index element={<Dashboard products={products} />} />
-              <Route path="/admin/add" element={<ProductAdd />} />
+              <Route
+                path="/admin/add"
+                element={<ProductAdd onAdd={handleAddProduct} />}
+              />
+              <Route
+                path="/admin/edit/:id"
+                element={<ProductEdit onEdit={handleEditProduct} />}
+              />
             </Route>
           </Routes>
         </main>
