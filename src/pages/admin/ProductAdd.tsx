@@ -63,7 +63,7 @@ const ProductAdd = ({ onAdd }: Props) => {
             {...register("description")}
           />
         </div>
-        <button type="submit" className="btn btn-primary w-100">
+        <button type="submit" className="btn btn-primary w-100 margin-top">
           Submit
         </button>
       </form>

@@ -22,14 +22,20 @@ const Home: React.FC<Props> = ({ products }) => {
                 />
               </Link>
               <div className="card-body">
-                <Link to={`/shop/${product.id}`} className="text-decoration-none">
+                <Link
+                  to={`/shop/${product.id}`}
+                  className="text-decoration-none"
+                >
                   <h5 className="card-title">{product.title}</h5>
                 </Link>
                 <p className="card-text">{product.description}</p>
                 <h6 className="card-subtitle mb-2 text-muted">
                   Price: ${product.price}
                 </h6>
-                <Link to={`/shop/${product.id}`} className="btn btn-primary w-100">
+                <Link
+                  to={`/shop/${product.id}`}
+                  className="btn btn-primary w-100"
+                >
                   Add to Cart
                 </Link>
               </div>

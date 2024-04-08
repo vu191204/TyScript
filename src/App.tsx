@@ -14,6 +14,7 @@ import ProductAdd from "./pages/admin/ProductAdd";
 import { createProduct, getProducts, updateProduct } from "./api/product";
 import ProductEdit from "./pages/admin/ProductEdit";
 import instance from "./api";
+import Notfoud from "./pages/Notfoud";
 
 function App() {
   const navigate = useNavigate();
@@ -80,6 +81,7 @@ function App() {
                 element={<ProductEdit onEdit={handleEditProduct} />}
               />
             </Route>
+            <Route path="*" element={<Notfoud />}/>
           </Routes>
         </main>
         <Footer />
